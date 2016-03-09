@@ -571,31 +571,37 @@ public class Matrix implements RingElement, Serializable {
     }
 
     @Override
-    public void mult(int constantMult) {
+    public void mult(int constantMult) throws MatrixOpException {
         if (this.initialized()) {
+            Matrix newMatrix = new Matrix(this.rows, this.columns);
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    entries[i][j] *= constantMult;
+                    //entries[i][j] *= constantMult;
+                    newMatrix.setEntry(i, j, entries[i][j] * constantMult);
                 }
             }
+            this.readMatrix(newMatrix.entries);
+        } else {
+            throw new MatrixOpException("Error scaling matrix.");
+        }
+    }
+
+    public void mult(double constantMult) throws MatrixOpException {
+        if (this.initialized()) {
+            Matrix newMatrix = new Matrix(this.rows, this.columns);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    //entries[i][j] *= constantMult;
+                    newMatrix.setEntry(i, j, entries[i][j] * constantMult);
+                }
+            }
+            this.readMatrix(newMatrix.entries);
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void mult(double constantMult) {
-        if (this.initialized()) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    entries[i][j] *= constantMult;
-                }
-            }
-        } else {
-            throw new RuntimeException();
-        }
-    }
-
-    public static class MatrixOpException extends Exception {
+    public static class MatrixOpException extends RingOpException {
 
         public MatrixOpException() {
         }

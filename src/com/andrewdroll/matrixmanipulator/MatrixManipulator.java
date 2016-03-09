@@ -17,7 +17,7 @@ import java.util.regex.*;
 public class MatrixManipulator {
     
     File helpFile = new File(".\\Matrixapi.txt");
-    MatrixNameMap matrices = new MatrixNameMap();
+    //MatrixNameMap matrices = new MatrixNameMap();
     private static final Pattern MATRIXP = Pattern.compile("\\[[ ]*(<[ ]*(\\d*(\\.\\d+)?[ ]*)+>[ ]*)\\]");
     private static final Pattern VECTORP = Pattern.compile("<[ ]*(\\d*(\\.\\d+)?[ ]*)+>");
     private static final Pattern ENTRYP = Pattern.compile("\\d*(\\.\\d+)?");
@@ -36,7 +36,8 @@ public class MatrixManipulator {
             BufferedReader buffer = new BufferedReader(fileInput);
         }catch(Exception e)
         {}*/
-        System.out.println("Matrix manipulator Beta v0.1");                     //intro lines
+        System.out.println("Matrix manipulator Beta v0.2");                     //intro lines
+        System.out.println("By Andrew Droll - STARTED Nov 2014, polished March 2016.");
         System.out.println("Input help for an API listing, or quit to exit.");  //help & quit instructions
         while(true){                                                            //cmd line loop
             System.out.print("$ ");
@@ -108,7 +109,7 @@ public class MatrixManipulator {
     }
    
     
-    private void Assignment(String name, String value){
+    /*private void Assignment(String name, String value){
         Matrix assignment;
         String[] arguments;
         if(value.contains("File")){
@@ -144,7 +145,7 @@ public class MatrixManipulator {
             }
         }
         
-    } 
+    }*/
     
     public static void main(String[] args){
         MatrixManipulator matrixApp = new MatrixManipulator();

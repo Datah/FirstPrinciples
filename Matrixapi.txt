@@ -1,1 +1,40 @@
-Testing help file
+MatrixManipulator v.0.2
+
+Loading Matrices:
+
+--Use RandomMatrix(n,m) to generate an n x m real matrix with random entries between 0 and 1.
+--Use FromFile(<file-path>) to read a matrix from a file on the hard drive (put row and column dimension on the first line, separated by a space, then put rows on separate lines, column entries separated by spaces - see the example file testmatrix5x7.txt in the repository base folder for an example)
+
+--Manual input at the command line via ReadMatrix() --- NOT YET IMPLEMENTED
+
+You can make name assignments of matrices to capital letter aliases like this:
+
+A = RandomMatrix(n,m)
+
+Then, the capital letter A will always refer to the randomly generated matrix above (until you reassign it).
+
+Supported matrix calculations:
+
+You can multiply two matrices of appropriate dimensions by the * operator (e.g. A*B will multiply the matrices A and B, if you have assigned those names previously)
+
+--Inv(M): Compute the inverse of a square matrix M.
+--Trans(M): Compute the transpose of a matrix M.
+--Det(M): Compute the determinant of a square matrix M.
+--RREF(M): Compute the Row-Reduced Echelon form of a matrix M.
+--CoFactor(M,n,m): Compute the n,m'th coFactor matrix of M (where n, m are integers, n < numRows and m < numCols).
+--Power(M,n): Compute the n'th exponent of a square matrix M.
+--Scale(M,x): Compute xM (i.e. scale every entry of M by the double value x).
+
+
+--SubMatrix(M, int[] n, int[] m) --- Extract the submatrix of rows in n and columns in m --- NOT YET IMPLEMENTED
+
+
+EXAMPLES:
+
+You can combine the operations above in a wide variety of ways! For example:
+
+A = RandomMatrix(5,2)
+B = A*RandomMatrix(2,8)
+C = CoFactor(Trans(RREF(B))*FromFile(testmatrix5x7.txt),2,2)
+
+(Try it out!)

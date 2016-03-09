@@ -1,23 +1,18 @@
-package com.andrewdroll.matrixmanipulator;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.andrewdroll.matrixmanipulator;
 
 /**
  *
  * @author Andrew
  */
-public interface RingElement {
-    void add(RingElement rE);
+public class RingOpException extends Exception {
     
-    void mult(int power) throws RingOpException;
+    public RingOpException(){}
     
-    int order();
-    
-    boolean finiteOrder();
+    public RingOpException(String msg){super(msg);}
     
 }
-

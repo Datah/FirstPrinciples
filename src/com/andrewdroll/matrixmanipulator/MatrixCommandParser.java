@@ -23,7 +23,7 @@ public class MatrixCommandParser {
     public static final Pattern OP_ARG_PAT = Pattern.compile("([,(][\\d]+([.]\\d+)?)*[)]$");
     public static final Pattern NUMPAT = Pattern.compile("[\\d]+([.]\\d+)?");
 
-    public static final Pattern MNAMEPAT = Pattern.compile("\\p{Upper}");
+    public static final Pattern MNAMEPAT = Pattern.compile("(^|[^\\w])(\\p{Upper})([^\\w]|$)");
 
     MatrixNameMap matrices = new MatrixNameMap();
 
@@ -174,10 +174,11 @@ public class MatrixCommandParser {
                     return result;
                 } else if (getOuterType() == null) {
                     Matcher mNameMatcher = MNAMEPAT.matcher(getBlockText());
-                    if (mNameMatcher.matches()) {
-                        if (matrices.getMap().containsKey(getBlockText())) {
+                    if (mNameMatcher.find()) {
+                        String name = mNameMatcher.group(2);
+                        if (matrices.getMap().containsKey(name)) {
                             Matrix newM = new Matrix();
-                            newM.readMatrix(matrices.getMap().get(getBlockText()).entries);
+                            newM.readMatrix(matrices.getMap().get(name).entries);
                             return newM;
                         } else {
                             throw new CommandFormatException("Name " + getBlockText() + " has not yet been assigned --- " + level);
@@ -221,10 +222,10 @@ public class MatrixCommandParser {
                                 int objArg = Integer.parseInt(args.get(i));
                                 argObjs[i] = objArg;
                             }
-                            System.out.println(argObjs[i]);
+                            //System.out.println(argObjs[i]);
                         }
-                        Method meth = getOuterType().method;
-                        System.out.println("num params expected for method " + meth.getName() + ": " + meth.getParameterCount());
+                        //Method meth = getOuterType().method;
+                        //System.out.println("num params expected for method " + meth.getName() + ": " + meth.getParameterCount());
                         getOuterType().method.invoke(result, argObjs);
                     }
                     return result;
@@ -295,7 +296,7 @@ public class MatrixCommandParser {
                 }
 
                 //Check for matrix multiplication where there are no open parentheses
-                if (curr == '.' && numOpenParenths == 0) {
+                if (curr == '*' && numOpenParenths == 0) {
                     if (i < blockChars.length - 1 && i > 0) {
                         String blockToAdd = getBlockText().substring(lastStart, i);
                         getSubBlocks().add(new CommandBlock(blockToAdd, level + 1));
@@ -322,7 +323,8 @@ public class MatrixCommandParser {
                 int parenthInd = blockText.indexOf('(');
                 if (parenthInd >= 0) {
                     int endInd = blockText.lastIndexOf(')');
-                    innerBlock = new CommandBlock(blockText.substring(parenthInd + 1, endInd), level + 1);
+                    String innerText = blockText.substring(parenthInd + 1, endInd).replaceAll("(,[\\d]+([.]\\d+)?)*$", "");
+                    innerBlock = new CommandBlock(innerText, level + 1);
                     if (parenthInd > 0) {
                         outerTextLeft = blockText.substring(0, parenthInd);
                         outerType = BasisCommands.NONE;
@@ -405,7 +407,7 @@ public class MatrixCommandParser {
 
     public static void main(String[] args) {
         MatrixCommandParser parser = new MatrixCommandParser();
-        CommandBlock mainBlock = parser.parse("Inv(RandomMatrix(3,5).RandomMatrix(5,3))");
+        CommandBlock mainBlock = parser.parse("Power(RandomMatrix(2,2),3)");
         //mainBlock.processText();
         Matrix result = mainBlock.exec();
         System.out.println(mainBlock);

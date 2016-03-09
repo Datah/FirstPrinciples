@@ -107,7 +107,7 @@ public class SquareMatrix extends Matrix {
         
         public Scalar(double val){
             super(1,1);
-            setEntry(1,1,val);
+            setEntry(0,0,val);
         }
     }
 
