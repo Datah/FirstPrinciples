@@ -16,7 +16,7 @@ import java.io.*;
 public class MatrixNameMap {
     Map<String,Matrix> matrices = new HashMap<>();
     
-    public Map getMap(){
+    public Map<String, Matrix> getMap(){
         return matrices;
     }
 }

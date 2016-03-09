@@ -22,6 +22,8 @@ public class MatrixManipulator {
     private static final Pattern VECTORP = Pattern.compile("<[ ]*(\\d*(\\.\\d+)?[ ]*)+>");
     private static final Pattern ENTRYP = Pattern.compile("\\d*(\\.\\d+)?");
     
+    MatrixCommandParser parser = new MatrixCommandParser();
+    
     /**Main command line function MatrixCmdLine()
      * takes no arguments, returns void, prints commands lines and instructions while the program keeps running.
      * reads user input and feeds it to parseCmdLine()
@@ -52,11 +54,11 @@ public class MatrixManipulator {
      * @param currLine current command line input
      */
     private void parseCmdLine(String currLine){
-        String[] components;
+        /*String[] components;
         String name;
         String instruction;
         byte type;
-        boolean errorType;
+        boolean errorType;*/
         if(currLine.trim().toLowerCase().equals("help")){
             try{
                 FileReader helpReader = new FileReader(helpFile);
@@ -71,8 +73,11 @@ public class MatrixManipulator {
                 System.out.println("Error reading help file.");
                 return;
             }finally{}
+        }else{
+            Matrix response = parser.interpretAndAssign(currLine);
+            System.out.println(response);
         }
-        if((errorType = (currLine.indexOf("=")>0)) == (currLine.indexOf(":")>0)){
+        /*if((errorType = (currLine.indexOf("=")>0)) == (currLine.indexOf(":")>0)){
             System.out.println(errorType?"Instruction not processed: Too many components. Try again.":
                     "Invalid instruction. Try again.");
             return;
@@ -97,7 +102,7 @@ public class MatrixManipulator {
         }
         if(type == 1){
             Instruction(components[0], components[1]);
-        }
+        }*/
         
         
     }
